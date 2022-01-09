@@ -4,42 +4,70 @@
     //*Defeat each enemy-robot
 //"LOSE" - Player robot's health is zero or less
 
+var enemyNames = ["Roboto", "Amy Android", "Robo Trumble"];
+var enemyHealth = 50;
+var enemyAttack = 12;
+
+//function to start a new game
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
-//you can also log multiple values at once
-console.log(playerName, playerAttack, playerHealth);
+console.log(playerName, playerHealth,playerAttack);
 
-var enemyNames = ["Roboto", "Amy Android", "Robo Trumble"]
-var enemyHealth = 50;
-var enemyAttack = 12;
+var startGame = function() {
+    //reset player's stats
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
 
-//Alert players that they are starting the round
-var fight = function(enemyName) { 
-   if (playerHealth >0) {
-       //each new robot initiates a new round, so add incrementor by 1
-       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-       //pick new enemy to fight based on the index of enemyNames
+    //fight each enemy robot by looping over them and fighting one at a time
+    for (var i =0; i < enemyNames.length; i++){
+           if (playerHealth > 0) {
+                //each new robot initiates a new round, so add incrementor by 1
+            window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
        // pick new enemy to fight based on the index of the enemyNames array
-    /*
-    var pickedEnemyName = enemyNames[i];
+            var pickedEnemyName = enemyNames[i];
+        // reset enemyHealth before starting new fight
+            enemyHealth = 50;
+            //can use debugger to pause script file
+            //debugger;
+        // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+            fight(pickedEnemyName);
+                } 
+                else {
+                window.alert("You have lost your robot in battle! Game Over!");
+                break;
+                }
+        }
+    //play again 
+    startGame();
+    console.log("you have restarted the game.");
 
-    // reset enemyHealth before starting new fight
-    enemyHealth = 50;
+    //after loop ends, player is either out of health or enemies
+    endGame ();
+   };
 
-    // use debugger to pause script from running and check what's going on at that moment in the code
-    // debugger;
-
-    // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-    fight(pickedEnemyName);
+var endGame = function(){
+    //if player health is still alive, player wins!
+    if (playerHealth > 0){
+        window.alert ("The game has now ended. Let's see how you did!");
     } else {
-        window.alert("You have lost your robot in battle! Game Over!");
-        break;
+        window.alert("You've lost your robot in battle.");
     }
-    */
-   }
-   
+
+    //ask player if they'd like to play again
+    var playAgainConfirm = window.confirm("Would you like to play again?");
+    if (playAgainConfirm){
+        //restart the game;
+        startGame();
+    } else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+    }
+};
+
+
+var fight = function(enemyName) { 
     //repeat and execute as long as the enemy-robot is alive
     while (playerHealth > 0 && enemyHealth > 0) {
        // if no (false), ask question by running fight() again
@@ -86,7 +114,7 @@ var fight = function(enemyName) {
         console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
        
     //check player's health
-        if (playerHealth <=0) {
+        if (playerHealth <= 0) {
          window.alert(playerName + " has died! Game over!");
          //leave while() loop if player is dead
          break;
@@ -94,10 +122,8 @@ var fight = function(enemyName) {
          window.alert(playerName + " still has " + playerHealth + " health left.");
             }
         }
-    }
-
-for (var i=0; i < enemyNames.length; i++){
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth=50;
-    fight(pickedEnemyName);
 }
+//this loops 3x, even if i 
+for (var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+    }
