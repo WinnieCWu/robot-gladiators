@@ -42,27 +42,35 @@ var fightOrSkip = function() {
 
 // fight function (now with parameter for enemy's object holding name, health, and attack values)
 var fight = function(enemy) {
+  //keep track of who goes first
+  var isPlayerTurn = true;
+  //randomly change turn order
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
+
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
-    if (fightOrSkip()) {
+    if (isPlayerTurn) {
+      //ask player if they'd like to fight or skip using fightOrSKip
+      if (fightOrSkip()) {
+        //if true, then leave fight by breaking loop
       break;
-    }; //-- replaced the code with this function call amd add fight logic
+      }; //-- replaced the code with this function call amd add fight logic
 
-//Subtract the value of `playerAttack` from the value of `enemyHealth
-//if player chooses to fight, then fight
-/// don't need this-->  if (promptFight ==="fight" || promptFight ==="FIGHT") {
-    //generate random damage value based on player's attack number
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+      //Subtract the value of `playerAttack` from the value of `enemyHealth
+      //if player chooses to fight, then fight
+      //generate random damage value based on player's attack number
+      var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
-    // Log a resulting message to the console so we know that it worked.
-    enemy.health = Math.max(0, enemy.health - damage);
-    console.log(
-      playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
-    );
+         // Log a resulting message to the console so we know that it worked.
+        enemy.health = Math.max(0, enemy.health - damage);
+        console.log(
+        playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
+        );
 
-    //check enemy's health
-        // check enemy's health
-    if (enemy.health <= 0) {
+        //check enemy's health
+        if (enemy.health <= 0) {
         window.alert(enemy.name + ' has died!');
   
         // award player money for winning
@@ -70,27 +78,30 @@ var fight = function(enemy) {
   
         // leave while() loop since enemy is dead
         break;
-      } else {
+        } else {
         window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
-      }
+          }
   
-    // Generate random damage value based on player's attack number
+      // Generate random damage value based on player's attack number
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
-
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
+      //remove player's health by subtracking the amount we set in the damage variable
+      playerInfo.health = Math.max(0, playerInfo.health - damage);
     
-    console.log(
+      console.log(
       enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
-    );
+      );
 
-    // check player's health
-    if (playerInfo.health <= 0) {
+      // check player's health
+      if (playerInfo.health <= 0) {
       window.alert(playerInfo.name + ' has died!');
       // leave while() loop if player is dead
       break;
-    } else {
+      } else {
       window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
+      }
     }
+    //switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
